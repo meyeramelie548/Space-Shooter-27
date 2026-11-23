@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/rocket2.png">
+    <link rel="stylesheet" href="style.css">
+    <title>Space Shooter</title>
+</head>
+
+<body>
+     <div class="main-layout">
+        
+        
+        <div class="info-sidebar">
+            <h2>🚀 Eclipse of the Stars</h2>
+            
+            
+            <div class="desktop-description">
+                <p>Welcome to the Ultimate Space Shooter!</p>
+                <h3>Game Controls:</h3>
+                <ul>
+                    <li><strong>Arrow Keys:</strong> Move Rocket</li>
+                    <li><strong>Spacebar:</strong> Fire Laser</li>
+                </ul>
+                <p>Please press Start before enabling Fullscreen.</p>
+                <p>Press Esc to exit Fullscreen mode.</p>
+                <p>After all hearts/lives are gone, reload the page ↻ (top left in the browser), to contiune playing.</p>
+                <p>Shoot down as many asteroids as possible!</p>
+                <p>🎶Retro Arcade Game Music 🎶Artist: Monume</p>
+                <p>🎵Laser Shot Ingame <br>🎵Artist: RibhavAgrawal</p>
+            </div>
+
+            
+            <div class="mobile-description">
+                <p><strong>Controls:</strong> 🞂🞀🞁🞃 move 🚀 | 🔥 fire/shoot</p>
+                <p>After all hearts/lives are gone, reload the page ↻ (Tap the three dots (⋮) in your browser.), to contiune playing.</p>
+            </div>
+        </div>
+
+        
+        <div class="center-column">
+        <div id="game-container"></div>
+
+        
+        <div id="touch-controls">
+        <button id="btn-left" class="touch-btn">◀️</button>
+        <div class="dpad-vertical">
+        <button id="btn-up" class="touch-btn" type="button">▲</button>
+        <button id="btn-fire" class="touch-btn fire-btn" type="button">🔥</button>
+        <button id="btn-down" class="touch-btn" type="button">▼</button>
+        </div>
+        <button id="btn-right" class="touch-btn">▶️</button>
+        </div>
+
+        
+        <div class="side-controls">
+        
+        <button class="btn btn-danger" onmousedown="event.preventDefault()" onclick="resetGame()"> Start</button>
+        <button class="btn btn-warning" onmousedown="event.preventDefault()" onclick="togglePause(this)">Pause</button>
+        <button class="btn" onmousedown="event.preventDefault()" onclick="toggleFullscreen()"> Fullscreen</button>
+        </div>
+        </div>
+    </div>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.2.4/pixi.min.js"></script>
+    <script src="gameloop.js"></script>
+    <script src="app.js"></script>
+    
+    <script>
+    let isPaused = false;
+
+    
+    function resetGame() {
+        
+        if (typeof backgroundMusic !== 'undefined') {
+            backgroundMusic.currentTime = 0;
+            backgroundMusic.play().catch(() => {});
+        }
+
+        
+        if (typeof meteoriteList !== 'undefined' && Array.isArray(meteoriteList)) {
+            for (let i = meteoriteList.length - 1; i >= 0; i--) {
+                app.stage.removeChild(meteoriteList[i]);
+            }
+            meteoriteList.length = 0; 
+        }
+
+        
+        if (typeof score !== 'undefined') score = 0;
+        if (typeof scoreText !== 'undefined' && scoreText) scoreText.text = 'Score: 0';
+
+        
+        if (typeof rocket !== 'undefined' && rocket) {
+            rocket.x = app.renderer.width / 2;
+            rocket.y = app.renderer.height - 80;
+        }
+
+        
+        if (isPaused) {
+            if (typeof app !== 'undefined' && app.ticker) app.ticker.start();
+            isPaused = false;
+            const pauseBtn = document.querySelector('.btn-warning');
+            if (pauseBtn) pauseBtn.textContent = 'Pause';
+        }
+    }
+
+    
+    function togglePause(btn) {
+        if (!isPaused) {
+            if (typeof app !== 'undefined' && app.ticker) app.ticker.stop();
+            if (typeof backgroundMusic !== 'undefined') backgroundMusic.pause();
+            btn.textContent = 'Pause';
+            isPaused = true;
+        } else {
+            if (typeof app !== 'undefined' && app.ticker) app.ticker.start();
+            if (typeof backgroundMusic !== 'undefined') backgroundMusic.play().catch(() => {});
+            btn.textContent = 'Pause';
+            isPaused = false;
+        }
+    }
+    
+    
+    function toggleFullscreen() {
+        const targetElement = document.querySelector('.center-column') || document.getElementById('game-container');
+
+        if (!document.fullscreenElement) {
+            if (targetElement.requestFullscreen) {
+                targetElement.requestFullscreen();
+            } else if (targetElement.webkitRequestFullscreen) {
+                targetElement.webkitRequestFullscreen();
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+    }
+    </script>
+</body>
+
+</html>
+
+
+
