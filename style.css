@@ -120,7 +120,7 @@ canvas {
 }
 
 
-/* DESKTOP / STANDARD FULLSCREEN (wie im ursprünglichen Code rechts angeordnet) */
+
 .center-column:fullscreen,
 .center-column:-webkit-full-screen {
     position: relative;
@@ -254,7 +254,7 @@ canvas {
         gap: 10px;
     }
 
-    /* HANDY FULLSCREEN: side-controls oben mit space-around & schmalerer width */
+    
     .center-column:fullscreen .side-controls,
     .center-column:-webkit-full-screen .side-controls {
         position: fixed;
@@ -276,7 +276,7 @@ canvas {
         font-size: 12px;
     }
 
-    /* HANDY FULLSCREEN: touch-controls weiter unten & kompakter, damit Rakete sichtbar bleibt */
+    
     .center-column:fullscreen #touch-controls,
     .center-column:-webkit-full-screen #touch-controls {
         display: flex;
